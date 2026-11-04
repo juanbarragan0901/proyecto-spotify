@@ -6,6 +6,21 @@ from recomendador import normalizar_respuesta, recomendar
 
 st.set_page_config(page_title="Chatbot de música", page_icon="🎧")
 
+def chatbot_configurado():
+    """Dice si están los secretos para hablar con n8n."""
+    try:
+        return bool(st.secrets["N8N_WEBHOOK_URL"]) and bool(st.secrets["N8N_API_KEY"])
+    except Exception:
+        return False
+
+
+if not chatbot_configurado():
+    st.title("🎧 Chatbot de recomendaciones")
+    st.info(
+        "El chatbot solo funciona en la demostración local, cuando n8n está encendido. "
+        "En esta versión publicada no está conectado."
+    )
+    st.stop()
 
 @st.cache_data
 def cargar_datos(ruta):
@@ -67,4 +82,3 @@ if pregunta:
             st.dataframe(tabla, hide_index=True)
 
     st.session_state.mensajes.append({"role": "assistant", "content": texto, "tabla": tabla})
-  
