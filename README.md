@@ -1,4 +1,4 @@
-# ¿Qué pesa más en la popularidad: el género o la música?
+# Más allá del ritmo: qué explica la popularidad de una canción
 
 Dashboard interactivo en Streamlit sobre el Spotify Tracks Dataset (Kaggle, autor maharshipandya).
 
