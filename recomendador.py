@@ -56,11 +56,12 @@ def _numero(valor):
         return None
 
 
-def recomendar(df, filtros, n=5, semilla=None):
+def recomendar(df, filtros, n=5, semilla=None, descubrir=False):
     """Filtra el DataFrame con los filtros del modelo y elige n canciones.
 
     Solo usa claves conocidas y valores válidos, así que el modelo nunca
-    puede inventar canciones ni columnas.
+    puede inventar canciones ni columnas. Si descubrir es True, elige entre
+    las canciones menos populares (sin contar las de popularidad 0).
     """
     resultado = df
 
@@ -87,7 +88,18 @@ def recomendar(df, filtros, n=5, semilla=None):
     if resultado.empty:
         return pd.DataFrame(columns=COLUMNAS_TABLA)
 
-    # Se toman las 30 más populares y se sortean n para dar variedad
-    candidatas = resultado.sort_values("popularity", ascending=False).head(30)
+    if descubrir:
+        # Canciones con popularidad entre 1 y la mediana de los resultados
+        menos_conocidas = resultado[
+            (resultado["popularity"] > 0)
+            & (resultado["popularity"] <= resultado["popularity"].median())
+        ]
+        candidatas = menos_conocidas if not menos_conocidas.empty else resultado
+    else:
+        # Se toman las 30 más populares y se sortean n para dar variedad
+        candidatas = resultado.sort_values("popularity", ascending=False).head(30)
+
     elegidas = candidatas.sample(min(n, len(candidatas)), random_state=semilla)
     return elegidas[COLUMNAS_TABLA].reset_index(drop=True)
+
+   
