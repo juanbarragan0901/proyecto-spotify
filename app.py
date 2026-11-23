@@ -36,7 +36,8 @@ def correlacion(df, columna):
 
 df = cargar_datos("spotify_limpio.csv")
 
-st.title("🎵 ¿Qué pesa más en la popularidad: el género o la música?")
+st.title("🎵 Más allá del ritmo: qué explica la popularidad de una canción")
+st.caption("¿Qué pesa más: el género o las características musicales?")
 
 # --- Widgets ---
 st.sidebar.header("Filtros")
