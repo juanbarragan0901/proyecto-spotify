@@ -18,7 +18,7 @@ Dashboard interactivo en Streamlit sobre el Spotify Tracks Dataset (Kaggle, auto
 
 ```
 pip install -r requirements.txt
-streamlit run app.py
+py -m streamlit run app.py
 ```
 
 ## Archivos
